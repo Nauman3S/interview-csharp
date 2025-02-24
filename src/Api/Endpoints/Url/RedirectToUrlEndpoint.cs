@@ -35,6 +35,8 @@ public class RedirectToUrlEndpoint : BaseEndpoint<RedirectToUrlRequest>
 
     public override async Task HandleAsync(RedirectToUrlRequest req, CancellationToken ct)
     {
+            Console.WriteLine($"🔍 Handling redirect for: {req.Id}");
+
         var result = await Mediator.Send(
             new RedirectToUrlCommand
             {
@@ -42,6 +44,17 @@ public class RedirectToUrlEndpoint : BaseEndpoint<RedirectToUrlRequest>
             },
             ct
         );
-        await SendRedirectAsync(result);
+        Console.WriteLine($"Redirecting to: {result}");
+
+        // Ensure the URL is properly formatted
+        if (!result.StartsWith("http://") && !result.StartsWith("https://"))
+        {
+            result = "https://" + result;
+        }
+
+        // Send a proper HTTP 302 redirect and terminate processing
+        HttpContext.Response.Redirect(result, permanent: false);
+        await HttpContext.Response.CompleteAsync(); // Ensures request is terminated immediately
+
     }
 }

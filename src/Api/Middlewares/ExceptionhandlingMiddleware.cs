@@ -1,3 +1,5 @@
+using System.Net;
+using System.Text.Json;
 using UrlShortenerService.Application.Common.Exceptions;
 
 namespace UrlShortenerService.Api.Middlewares;
@@ -46,16 +48,23 @@ public class ExceptionHandlingMiddleware : IMiddleware
     /// </summary>
     /// <param name="context">The http context.</param>
     /// <param name="exception">The raised exception.</param>
-    private void HandleExceptionAsync(HttpContext context, Exception exception)
+    private Task HandleExceptionAsync(HttpContext context, Exception exception)
     {
-        var type = exception.GetType();
-        if (_exceptionHandlers.TryGetValue(type, out var value))
-        {
-            value.Invoke(context, exception);
-            return;
-        }
+    context.Response.ContentType = "application/json";
+    context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
-        NoHandlerForException(context, exception);
+    var response = new
+    {
+        error = exception.Message,
+        stackTrace = exception.StackTrace
+    };
+
+    var options = new JsonSerializerOptions
+    {
+        WriteIndented = true
+    };
+
+    return context.Response.WriteAsync(JsonSerializer.Serialize(response, options));
     }
 
     /// <summary>

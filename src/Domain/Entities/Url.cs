@@ -23,5 +23,11 @@ public class Url : BaseAuditableEntity
     /// </summary>
     public string OriginalUrl { get; set; } = default!;
 
+    /// <summary>
+    /// The short url key.
+    /// </summary>
+    public string? ShortUrlKey { get; set; }
+
+
     #endregion
 }
