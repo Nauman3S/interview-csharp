@@ -1,3 +1,9 @@
+Dockerfile
+Simple dotnet sdk v8 container
+
+docker-compose.yml
+simple service to run the container
+
 Url.cs
 ShortUrlKey: A nullable string property to store the short URL key.
 
