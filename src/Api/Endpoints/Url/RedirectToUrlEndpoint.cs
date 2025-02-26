@@ -35,7 +35,7 @@ public class RedirectToUrlEndpoint : BaseEndpoint<RedirectToUrlRequest>
 
     public override async Task HandleAsync(RedirectToUrlRequest req, CancellationToken ct)
     {
-            Console.WriteLine($"🔍 Handling redirect for: {req.Id}");
+            Console.WriteLine($"Handling redirect for: {req.Id}");
 
         var result = await Mediator.Send(
             new RedirectToUrlCommand

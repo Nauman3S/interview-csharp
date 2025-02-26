@@ -48,9 +48,10 @@ public class RedirectToUrlCommandHandler : IRequestHandler<RedirectToUrlCommand,
         Console.WriteLine($"Decoded ID: {decodedId}");
 
         // Fetch the URL entity from the database
-        var urlEntity = await _context.Urls
-                                      .Where(u => u.Id == decodedId)
-                                      .FirstOrDefaultAsync(cancellationToken);
+        var urlEntity = await _context.Urls.FindAsync(decodedId, cancellationToken);
+        // var urlEntity = await _context.Urls
+        //                               .Where(u => u.Id == decodedId)
+        //                               .FirstOrDefaultAsync(cancellationToken);
 
         if (urlEntity == null)
         {

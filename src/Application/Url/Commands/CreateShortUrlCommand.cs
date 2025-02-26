@@ -53,7 +53,7 @@ public class CreateShortUrlCommandHandler : IRequestHandler<CreateShortUrlComman
 
         // Update the entity with the ShortUrlKey
         await _context.SaveChangesAsync(cancellationToken);
-        Console.WriteLine($"🔗 Short URL Created: /u/{shortUrlKey}");
+        Console.WriteLine($"hort URL Created: /u/{shortUrlKey}");
 
 
         return shortUrlKey;
